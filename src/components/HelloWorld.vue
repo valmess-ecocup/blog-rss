@@ -8,9 +8,10 @@
 import Parser from 'rss-parser'
 
 let getItem = async function (url) {
+  console.log(url);
   let parser = new Parser()
   let feed = await parser.parseURL(url)
-  console.log(feed.title)
+  return feed
 }
 
 export default {
@@ -19,9 +20,10 @@ export default {
     msg: String
   },
   created () {
+    console.log('INIT');
     getItem('http://feeds.feedburner.com/Pressecitron').then(item => {
      console.log(item);
-    });
+    }).catch(error => { console.log(error) })
   }
 }
 </script>
