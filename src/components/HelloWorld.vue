@@ -21,7 +21,7 @@ export default {
   },
   created () {
     console.log('INIT');
-    getItem('http://feeds.feedburner.com/Pressecitron').then(item => {
+    getItem('https://www.presse-citron.net/feed/').then(item => {
      console.log(item);
     }).catch(error => { console.log(error) })
   }
