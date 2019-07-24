@@ -1,9 +1,13 @@
 <template>
   <div class="hello">
     <ul>
-      <li v-for="item in items" :key="item.guid">
+      <li v-for="(item, i) in items" :key="item.guid" v-on:click='setActive(i)'>
         <img :src="item.thumbnail">
         <div class="title">{{ item.title }}</div>
+        <div v-bind:class="[i === index ? 'content_action active' : 'content_action']">
+          <div class="content_action--btn" v-on:click='addToTrello(item)'><i class="material-icons">add_circle</i></div>
+          <a class="content_action--btn" :href='item.link' target="_blank"><i class="material-icons">remove_red_eye</i></a>
+        </div>
       </li>
     </ul>
   </div>
@@ -13,9 +17,8 @@
 import curl from 'curl'
 
 let getItem = async function (url, call) {
-  const feed = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURI(url);
+  const feed = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURI(url)
   await curl.getJSON(feed, function(err, response, data) {
-    console.log(data)
     call(data)
   });
 }
@@ -27,13 +30,31 @@ export default {
   },
   data: function() {
     return {
-      items : []
+      items : [],
+      index : undefined
     }
   },
   created () {
     getItem('https://www.presse-citron.net/feed/', (data) => {
       this.items = data.items
     });
+  },
+  methods: {
+    setActive(i) {
+      if (i === this.index) {
+        this.index =  undefined
+      }
+
+      this.index =  i
+    },
+    addToTrello (item) {
+      const title = encodeURI(item.title)
+      const link = encodeURI(item.link)
+      let url = "https://api.trello.com/1/cards?name="+ title +"&desc="+ link +"&pos=top&idList=5d24e8a7b078477abd73eb13&keepFromSource=all&key=eafa818967fa7706d183623c7b600845&token=936d0cba9ab566c3bffd1d18626663680f74db6ae9e2d14e262630fcccab04ef"
+      curl.post(url, function(err, response, data) {
+        console.log(response)
+      });
+    }
   }
 }
 </script>
@@ -89,5 +110,26 @@ img{
 a {
   color: #FFF;
   text-decoration: none;
+}
+.content_action.active{
+  transition: 0.3s;
+  position: absolute;
+  z-index: 999;
+  top: 35%;
+  left: 50%;
+  width: 400px;
+  margin-left: -200px;
+}
+.content_action--btn{
+  transition: 3s;
+  display: inline-block;
+  color: white;
+  background-color: #5EEB5B;
+  border-radius: 50%;
+  margin: 20px;
+  padding: 22px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
 }
 </style>
