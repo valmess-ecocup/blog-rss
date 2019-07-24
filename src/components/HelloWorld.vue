@@ -53,9 +53,19 @@ li {
   margin: 10px;
   border-radius: 20px;
   overflow: hidden;
-  min-height: 340px;
+  min-height: 300px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   cursor: pointer;
+  padding: 20px;
+}
+li:after{
+  content: "";
+  background-image: linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.6) 50%,rgba(0,0,0,.9) 100%);
+  width: 100%;
+  position: absolute;
+  height: 200px;
+  left: 0;
+  bottom: 0;
 }
 img{
   position: absolute;
@@ -67,8 +77,11 @@ img{
 }
 .title{
   color: #FFF;
+  font-family: 'Anton', sans-serif;
   position: absolute;
   z-index: 99;
+  font-size: 24px;
+  max-width: 90%;
   text-align: left;
   bottom: 20px;
   left: 20px;
