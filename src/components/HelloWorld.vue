@@ -50,9 +50,10 @@ export default {
     addToTrello (item) {
       const title = encodeURI(item.title)
       const link = encodeURI(item.link)
+    
       let url = "https://api.trello.com/1/cards?name="+ title +"&desc="+ link +"&pos=top&idList=5d24e8a7b078477abd73eb13&keepFromSource=all&key=eafa818967fa7706d183623c7b600845&token=936d0cba9ab566c3bffd1d18626663680f74db6ae9e2d14e262630fcccab04ef"
       curl.post(url, function(err, response, data) {
-        console.log(response)
+        console.log(err, response, data)
       });
     }
   }
