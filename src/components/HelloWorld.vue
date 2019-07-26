@@ -35,9 +35,21 @@ export default {
     }
   },
   created () {
-    getItem('https://www.presse-citron.net/feed/', (data) => {
-      this.items = data.items
-    });
+    const feeds = [
+      'https://www.blogdumoderateur.com/feed/',
+      'https://www.presse-citron.net/feed/'
+    ]
+
+    let items = null;
+    feeds.map((feed) => {
+      getItem(feed, (data) => {
+        if (!items) {
+          return items = data.items
+        }
+        items = items.concat(data.items)
+        this.items = items;
+      })
+    })
   },
   methods: {
     setActive(i) {
