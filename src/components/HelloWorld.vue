@@ -2,7 +2,7 @@
   <div class="hello">
     <ul>
       <li v-for="(item, i) in items" :key="item.guid" v-on:click='setActive(i)'>
-        <img :src="item.thumbnail">
+        <img :src="[item.thumbnail ? item.thumbnail : './dist/favicon.ico']">
         <div class="title">{{ item.title }}</div>
         <div v-bind:class="[i === index ? 'content_action active' : 'content_action']">
           <div class="content_action--btn" v-on:click='addToTrello(item)'><i class="material-icons">add_circle</i></div>
@@ -35,14 +35,18 @@ export default {
     }
   },
   created () {
+    // 'https://www.blogduwebdesign.com/feed/',
+    //   'http://www.florianperrier.com/feed/'
     const feeds = [
       'https://www.blogdumoderateur.com/feed/',
-      'https://www.presse-citron.net/feed/'
+      'https://www.presse-citron.net/feed/',
+      'https://hitek.fr/rss'
     ]
 
     let items = null;
     feeds.map((feed) => {
       getItem(feed, (data) => {
+        console.log(data)
         if (!items) {
           return items = data.items
         }
@@ -62,7 +66,7 @@ export default {
     addToTrello (item) {
       const title = encodeURI(item.title)
       const link = encodeURI(item.link)
-    
+
       let url = "https://api.trello.com/1/cards?name="+ title +"&desc="+ link +"&pos=top&idList=5d24e8a7b078477abd73eb13&keepFromSource=all&key=eafa818967fa7706d183623c7b600845&token=936d0cba9ab566c3bffd1d18626663680f74db6ae9e2d14e262630fcccab04ef"
       curl.post(url, function(err, response, data) {
         console.log(err, response, data)
