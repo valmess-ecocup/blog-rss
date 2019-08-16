@@ -2,7 +2,7 @@
   <div class="hello">
     <ul>
       <li v-for="(item, i) in items" :key="item.guid" v-on:click='setActive(i)'>
-        <img :src="[item.thumbnail ? item.thumbnail : './dist/favicon.ico']">
+        <img :src="[item.thumbnail ? item.thumbnail : './quepal.jpg']">
         <div class="title">{{ item.title }}</div>
         <div v-bind:class="[i === index ? 'content_action active' : 'content_action']">
           <div class="content_action--btn" v-on:click='addToTrello(item)'><i class="material-icons">add_circle</i></div>
@@ -35,19 +35,18 @@ export default {
     }
   },
   created () {
-    // 'https://www.blogduwebdesign.com/feed/',
-    //   'http://www.florianperrier.com/feed/'
     const feeds = [
       'https://www.blogdumoderateur.com/feed/',
       'https://www.presse-citron.net/feed/',
       'https://hitek.fr/rss',
-      'https://www.usine-digitale.fr/rss'
+      'https://www.usine-digitale.fr/rss',
+      'http://www.florianperrier.com/feed/',
+      'https://www.blogduwebdesign.com/feed/'
     ]
 
     let items = null;
     feeds.map((feed) => {
       getItem(feed, (data) => {
-        console.log(data)
         if (!items) {
           return items = data.items
         }
