@@ -40,7 +40,8 @@ export default {
     const feeds = [
       'https://www.blogdumoderateur.com/feed/',
       'https://www.presse-citron.net/feed/',
-      'https://hitek.fr/rss'
+      'https://hitek.fr/rss',
+      'https://www.usine-digitale.fr/rss'
     ]
 
     let items = null;
